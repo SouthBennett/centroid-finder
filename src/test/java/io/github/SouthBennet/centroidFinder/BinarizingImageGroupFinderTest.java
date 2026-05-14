@@ -1,5 +1,13 @@
+package test.java.io.github.SouthBennet.centroidFinder;
 import static org.junit.Assert.*;
 import org.junit.Test;
+
+import main.java.io.github.SouthBennet.centroidFinder.BinarizingImageGroupFinder;
+import main.java.io.github.SouthBennet.centroidFinder.BinaryGroupFinder;
+import main.java.io.github.SouthBennet.centroidFinder.DfsBinaryGroupFinder;
+import main.java.io.github.SouthBennet.centroidFinder.DistanceImageBinarizer;
+import main.java.io.github.SouthBennet.centroidFinder.EuclideanColorDistance;
+import main.java.io.github.SouthBennet.centroidFinder.ImageBinarizer;
 
 import java.awt.image.BufferedImage;
 import java.util.List;

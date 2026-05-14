@@ -1,5 +1,11 @@
+package test.java.io.github.SouthBennet.centroidFinder;
 import static org.junit.Assert.*;
 import org.junit.Test;
+
+import main.java.io.github.SouthBennet.centroidFinder.BinaryGroupFinder;
+import main.java.io.github.SouthBennet.centroidFinder.DfsBinaryGroupFinder;
+import main.java.io.github.SouthBennet.centroidFinder.Group;
+
 import java.util.List;
 
 public class DfsBinaryGroupFinderTest {

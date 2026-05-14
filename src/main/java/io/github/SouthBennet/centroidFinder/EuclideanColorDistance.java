@@ -1,3 +1,4 @@
+package main.java.io.github.SouthBennet.centroidFinder;
 public class EuclideanColorDistance implements ColorDistanceFinder {
     /**
      * Returns the euclidean color distance between two hex RGB colors.
