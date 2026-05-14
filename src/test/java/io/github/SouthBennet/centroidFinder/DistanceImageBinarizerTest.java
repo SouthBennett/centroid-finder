@@ -3,6 +3,7 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 import main.java.io.github.SouthBennet.centroidFinder.ColorDistanceFinder;
+import main.java.io.github.SouthBennet.centroidFinder.DistanceImageBinarizer;
 import main.java.io.github.SouthBennet.centroidFinder.EuclideanColorDistance;
 
 import java.awt.image.BufferedImage;

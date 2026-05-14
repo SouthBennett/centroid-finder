@@ -7,6 +7,7 @@ import main.java.io.github.SouthBennet.centroidFinder.BinaryGroupFinder;
 import main.java.io.github.SouthBennet.centroidFinder.DfsBinaryGroupFinder;
 import main.java.io.github.SouthBennet.centroidFinder.DistanceImageBinarizer;
 import main.java.io.github.SouthBennet.centroidFinder.EuclideanColorDistance;
+import main.java.io.github.SouthBennet.centroidFinder.Group;
 import main.java.io.github.SouthBennet.centroidFinder.ImageBinarizer;
 
 import java.awt.image.BufferedImage;
