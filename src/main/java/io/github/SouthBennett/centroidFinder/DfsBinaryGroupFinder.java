@@ -1,4 +1,4 @@
-package main.java.io.github.SouthBennet.centroidFinder;
+package io.github.SouthBennett.centroidFinder;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;

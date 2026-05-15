@@ -1,10 +1,13 @@
-package test.java.io.github.SouthBennet.centroidFinder;
-import static org.junit.Assert.*;
-import org.junit.Test;
+package io.github.SouthBennett.centroidFinder;
+import org.junit.jupiter.api.Test;
 
-import main.java.io.github.SouthBennet.centroidFinder.ColorDistanceFinder;
-import main.java.io.github.SouthBennet.centroidFinder.DistanceImageBinarizer;
-import main.java.io.github.SouthBennet.centroidFinder.EuclideanColorDistance;
+import io.github.SouthBennett.centroidFinder.ColorDistanceFinder;
+import io.github.SouthBennett.centroidFinder.DistanceImageBinarizer;
+import io.github.SouthBennett.centroidFinder.EuclideanColorDistance;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+
 
 import java.awt.image.BufferedImage;
 

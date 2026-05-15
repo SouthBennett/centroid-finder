@@ -1,4 +1,4 @@
-package main.java.io.github.SouthBennet.centroidFinder;
+package io.github.SouthBennett.centroidFinder;
 /**
  * Represents a location in an image or array
  * 

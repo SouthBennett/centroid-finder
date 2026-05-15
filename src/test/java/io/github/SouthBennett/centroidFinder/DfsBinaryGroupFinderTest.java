@@ -1,10 +1,12 @@
-package test.java.io.github.SouthBennet.centroidFinder;
-import static org.junit.Assert.*;
-import org.junit.Test;
+package io.github.SouthBennett.centroidFinder;
+import org.junit.jupiter.api.Test;
 
-import main.java.io.github.SouthBennet.centroidFinder.BinaryGroupFinder;
-import main.java.io.github.SouthBennet.centroidFinder.DfsBinaryGroupFinder;
-import main.java.io.github.SouthBennet.centroidFinder.Group;
+import io.github.SouthBennett.centroidFinder.BinaryGroupFinder;
+import io.github.SouthBennett.centroidFinder.DfsBinaryGroupFinder;
+import io.github.SouthBennett.centroidFinder.Group;
+
+import static org.junit.jupiter.api.Assertions.*;
+
 
 import java.util.List;
 

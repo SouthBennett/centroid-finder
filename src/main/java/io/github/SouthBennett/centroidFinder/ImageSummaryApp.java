@@ -1,4 +1,4 @@
-package main.java.io.github.SouthBennet.centroidFinder;
+package io.github.SouthBennett.centroidFinder;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.PrintWriter;

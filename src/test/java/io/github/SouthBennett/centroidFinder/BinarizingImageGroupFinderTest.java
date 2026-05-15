@@ -1,14 +1,17 @@
-package test.java.io.github.SouthBennet.centroidFinder;
-import static org.junit.Assert.*;
-import org.junit.Test;
+package io.github.SouthBennett.centroidFinder;
+import org.junit.jupiter.api.Test;
 
-import main.java.io.github.SouthBennet.centroidFinder.BinarizingImageGroupFinder;
-import main.java.io.github.SouthBennet.centroidFinder.BinaryGroupFinder;
-import main.java.io.github.SouthBennet.centroidFinder.DfsBinaryGroupFinder;
-import main.java.io.github.SouthBennet.centroidFinder.DistanceImageBinarizer;
-import main.java.io.github.SouthBennet.centroidFinder.EuclideanColorDistance;
-import main.java.io.github.SouthBennet.centroidFinder.Group;
-import main.java.io.github.SouthBennet.centroidFinder.ImageBinarizer;
+import io.github.SouthBennett.centroidFinder.BinarizingImageGroupFinder;
+import io.github.SouthBennett.centroidFinder.BinaryGroupFinder;
+import io.github.SouthBennett.centroidFinder.DfsBinaryGroupFinder;
+import io.github.SouthBennett.centroidFinder.DistanceImageBinarizer;
+import io.github.SouthBennett.centroidFinder.EuclideanColorDistance;
+import io.github.SouthBennett.centroidFinder.Group;
+import io.github.SouthBennett.centroidFinder.ImageBinarizer;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+
 
 import java.awt.image.BufferedImage;
 import java.util.List;
