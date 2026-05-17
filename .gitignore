@@ -200,3 +200,5 @@ cython_debug/
 .pypirc
 
 target/
+
+sampleVideo\ensantina.mp4
