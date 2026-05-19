@@ -201,4 +201,4 @@ cython_debug/
 
 target/
 
-sampleVideo\ensantina.mp4
+sampleVideo/*.mp4

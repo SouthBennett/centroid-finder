@@ -16,13 +16,13 @@ import javax.imageio.ImageIO;
 // Imports Java's BufferedImage class for working with images
 import java.awt.image.BufferedImage;
 
-// Imports Java's File class for file paths and saving files
+
 import java.io.File;
 
-// Defines the class named VideoExperimentApp
+
 public class VideoExperimentApp {
 
-    // Main method where the program starts running
+    
     public static void main(String[] args) throws Exception {
 
         // Stores the path to the video file we want to open
