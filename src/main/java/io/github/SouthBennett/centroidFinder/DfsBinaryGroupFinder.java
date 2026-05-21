@@ -46,9 +46,9 @@ public class DfsBinaryGroupFinder implements BinaryGroupFinder {
                     if(stats.size() > 0){
                         avgX = stats.sumX() / stats.size();
                         avgY = stats.sumY() / stats.size();
-                        System.out.println(avgX + " x ");
-                        System.out.println(avgY + " y ");
-                        System.out.println(stats.size() + "size");
+                        // System.out.println(avgX + " x ");
+                        // System.out.println(avgY + " y ");
+                        // System.out.println(stats.size() + "size");
                     }
                         
                     if( stats.size() != 0){
