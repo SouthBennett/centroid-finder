@@ -11,7 +11,7 @@ public class ImageProcessor {
 
   public void processImage(
 
-  BufferedImage videoImage, String hexTargetColor, int threshold) {
+  BufferedImage videoImage, String hexTargetColor, String outputCsv, int threshold) {
 
   int targetColor = parseTargetColor(hexTargetColor);
 
@@ -27,7 +27,7 @@ public class ImageProcessor {
 
   List<Group> groups = findGroups(binarizer, videoImage);
 
-  writeGroupsToCsv(groups);
+  writeGroupsToCsv(groups, outputCsv);
 }
 
 
@@ -74,8 +74,8 @@ public List<Group> findGroups(ImageBinarizer binarizer,BufferedImage videoImage)
   return groupFinder.findConnectedGroups(videoImage);
 }
 
-public void writeGroupsToCsv(List<Group> groups) {
-  try (PrintWriter writer = new PrintWriter("groups.csv")) {
+public void writeGroupsToCsv(List<Group> groups, String outputCsv) {
+  try (PrintWriter writer = new PrintWriter(outputCsv)) {
     for (Group group : groups) {
       writer.println(group.toCsvRow());
     }

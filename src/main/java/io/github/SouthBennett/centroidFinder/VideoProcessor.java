@@ -17,12 +17,12 @@ import java.io.File;
 
 public class VideoProcessor {
 
-    public void processVideo( String videoPath, String hexColorString, int threshold) throws Exception {
+    public void processVideo( String videoPath, String hexColorString, String outputCsv, int threshold) throws Exception {
 
-    processVideo( videoPath, hexColorString, threshold, Integer.MAX_VALUE);
+    processVideo( videoPath, hexColorString, outputCsv, threshold, Integer.MAX_VALUE);
 }
 
-    public void processVideo(String videoPath, String hexColorString, int threshold, int maxFrames) throws Exception{
+    public void processVideo(String videoPath, String hexColorString, String outputCsv, int threshold, int maxFrames) throws Exception{
 
             // video grabber to process frames
             FFmpegFrameGrabber grabber = createGrabber(videoPath);
@@ -30,7 +30,7 @@ public class VideoProcessor {
             // print meta data
             printVideoMetadata(grabber);
 
-            extractVideoFrames(grabber, hexColorString, threshold, maxFrames);
+            extractVideoFrames(grabber, hexColorString, outputCsv, threshold, maxFrames);
         } finally {
             // saveFrame(firstFrame, "sampleOutput/Processed-frame.png");
             closeGrabber(grabber);
@@ -77,7 +77,7 @@ public class VideoProcessor {
     /**
      * Extracts the first frame from the video.
      */
-    public static void extractVideoFrames(FFmpegFrameGrabber grabber, String hexColorString, int threshold, int maxFrames) throws Exception {
+    public static void extractVideoFrames(FFmpegFrameGrabber grabber, String hexColorString, String outputCsv, int threshold, int maxFrames) throws Exception {
 
         int frameCount = 0;
 
@@ -92,7 +92,7 @@ public class VideoProcessor {
                 frameCount++;
 
                 ImageProcessor imagePro = new ImageProcessor();
-                imagePro.processImage(videoImage, hexColorString, threshold);
+                imagePro.processImage(videoImage, hexColorString, outputCsv, threshold);
                 
                 // System.out.println(videoImage.getWidth());
                 System.out.println("Frame counter:" + frameCount);
