@@ -17,43 +17,20 @@ import java.io.File;
 
 public class VideoProcessor {
 
-    public BufferedImage  processVideo(String videoPath) throws Exception{
+    public void processVideo( String videoPath, String hexColorString, int threshold) throws Exception {
 
+    processVideo( videoPath, hexColorString, threshold, Integer.MAX_VALUE);
+}
 
-  
+    public void processVideo(String videoPath, String hexColorString, int threshold, int maxFrames) throws Exception{
+
             // video grabber to process frames
             FFmpegFrameGrabber grabber = createGrabber(videoPath);
-    
-
-
         try {
             // print meta data
             printVideoMetadata(grabber);
 
-            int frameCount = 0;
-
-            while (true) {
-                Frame frame = grabber.grabImage();
-                if (frame == null) break;
-
-                try (Java2DFrameConverter converter = new Java2DFrameConverter()) {
-                    BufferedImage videoImage = converter.convert(frame);
-                    if (videoImage == null) continue;
-
-                    frameCount++;
-
-                    ImageProcessor imagePro = new ImageProcessor();
-                    imagePro.processImage(videoImage, "115938", 115);
-                    
-                    // System.out.println(videoImage.getWidth());
-                    System.out.println("Frame counter:" + frameCount);
-                }
-            }
-
-    
-            // extract first frame
-            // return extractFirstFrameVideo(grabber);
-            return null;
+            extractVideoFrames(grabber, hexColorString, threshold, maxFrames);
         } finally {
             // saveFrame(firstFrame, "sampleOutput/Processed-frame.png");
             closeGrabber(grabber);
@@ -100,20 +77,26 @@ public class VideoProcessor {
     /**
      * Extracts the first frame from the video.
      */
-    public static BufferedImage extractFirstFrameVideo(FFmpegFrameGrabber grabber) throws Exception {
+    public static void extractVideoFrames(FFmpegFrameGrabber grabber, String hexColorString, int threshold, int maxFrames) throws Exception {
 
-        try (Java2DFrameConverter converter = new Java2DFrameConverter()) {
+        int frameCount = 0;
 
+        while (frameCount < maxFrames) {
             Frame frame = grabber.grabImage();
+            if (frame == null) break;
 
-            if (frame == null) {
+            try (Java2DFrameConverter converter = new Java2DFrameConverter()) {
+                BufferedImage videoImage = converter.convert(frame);
+                if (videoImage == null) continue;
 
-                System.out.println("No image frame found.");
+                frameCount++;
 
-                return null;
+                ImageProcessor imagePro = new ImageProcessor();
+                imagePro.processImage(videoImage, hexColorString, threshold);
+                
+                // System.out.println(videoImage.getWidth());
+                System.out.println("Frame counter:" + frameCount);
             }
-
-            return converter.convert(frame);
         }
     }
 
