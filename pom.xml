@@ -45,7 +45,7 @@
         <version>3.1.0</version>
         <configuration>
           <!-- <mainClass>io.github.SouthBennett.centroidFinder.ImageSummaryApp</mainClass> -->
-          <mainClass>io.github.SouthBennett.centroidFinder.VideoExperimentApp</mainClass>
+          <mainClass>io.github.SouthBennett.centroidFinder.VideoApp</mainClass>
         </configuration>
       </plugin>
     </plugins>
