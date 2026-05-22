@@ -29,9 +29,31 @@ public class VideoProcessor {
         try {
             // print meta data
             printVideoMetadata(grabber);
+
+            int frameCount = 0;
+
+            while (true) {
+                Frame frame = grabber.grabImage();
+                if (frame == null) break;
+
+                try (Java2DFrameConverter converter = new Java2DFrameConverter()) {
+                    BufferedImage videoImage = converter.convert(frame);
+                    if (videoImage == null) continue;
+
+                    frameCount++;
+
+                    ImageProcessor imagePro = new ImageProcessor();
+                    imagePro.processImage(videoImage, "115938", 115);
+                    
+                    // System.out.println(videoImage.getWidth());
+                    System.out.println("Frame counter:" + frameCount);
+                }
+            }
+
     
             // extract first frame
-            return extractFirstFrameVideo(grabber);
+            // return extractFirstFrameVideo(grabber);
+            return null;
         } finally {
             // saveFrame(firstFrame, "sampleOutput/Processed-frame.png");
             closeGrabber(grabber);
