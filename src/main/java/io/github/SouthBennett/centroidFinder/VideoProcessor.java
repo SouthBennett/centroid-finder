@@ -12,14 +12,19 @@ import org.bytedeco.javacv.Java2DFrameConverter;
 
 // Imports Java's BufferedImage class for working with images
 import java.awt.image.BufferedImage;
+import java.io.File;
 
 
 public class VideoProcessor {
 
     public BufferedImage  processVideo(String videoPath) throws Exception{
+
+
   
-        // video grabber to process frames
-        FFmpegFrameGrabber grabber = createGrabber(videoPath);
+            // video grabber to process frames
+            FFmpegFrameGrabber grabber = createGrabber(videoPath);
+    
+
 
         try {
             // print meta data
@@ -37,6 +42,12 @@ public class VideoProcessor {
      * Creates and starts the video grabber.
      */
     public static FFmpegFrameGrabber createGrabber(String videoPath) throws Exception {
+
+        File videoFile = new File(videoPath);
+
+        if(!videoFile.exists()){
+            throw new IllegalArgumentException("Video file does not exist: " + videoPath);
+        }
 
         FFmpegFrameGrabber grabber = new FFmpegFrameGrabber(videoPath);
 
