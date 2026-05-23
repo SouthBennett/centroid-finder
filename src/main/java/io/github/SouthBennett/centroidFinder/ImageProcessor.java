@@ -8,6 +8,9 @@ import java.util.Collections;
 
 import javax.imageio.ImageIO;
 
+import java.io.FileWriter;
+import java.util.Collections;
+
 public class ImageProcessor {
 
   public void processImage(BufferedImage videoImage, String hexTargetColor, String outputCsv, int threshold, double timestampSeconds) {
@@ -30,7 +33,7 @@ public class ImageProcessor {
 
   System.out.println(largestGroup.toCsvRow());
 
-  // writeGroupsToCsv(groups, outputCsv);
+  writeLargestGroupToCsv(largestGroup, outputCsv, timestampSeconds);
 }
 
 
@@ -77,15 +80,14 @@ public List<Group> findGroups(ImageBinarizer binarizer,BufferedImage videoImage)
   return groupFinder.findConnectedGroups(videoImage);
 }
 
-public void writeGroupsToCsv(List<Group> groups, String outputCsv) {
-  try (PrintWriter writer = new PrintWriter(outputCsv)) {
-    for (Group group : groups) {
-      writer.println(group.toCsvRow());
-    }
-      System.out.println("Groups summary saved.");
+
+  public void writeLargestGroupToCsv( Group largestGroup, String outputCsv, double timestampSeconds) {
+    try ( PrintWriter writer = new PrintWriter( new FileWriter( outputCsv,true))) {
+        writer.println("Time Stamp: " + timestampSeconds + "," + " Centroid " + " X: " + largestGroup.centroid().x() + "," + " Y: " + largestGroup.centroid().y());
     } catch (Exception e) {
-      System.err.println("Error writing CSV.");
-      e.printStackTrace();
+        throw new IllegalArgumentException("Error writing CSV.");
     }
   }
+
+
 }
