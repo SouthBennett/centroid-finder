@@ -17,7 +17,7 @@ import java.io.File;
 
 public class VideoProcessor {
 
-    public void processVideo( String videoPath, String hexColorString, String outputCsv, int threshold) throws Exception {
+    public void processVideo( String videoPath, String outputCsv, String hexColorString, int threshold) throws Exception {
 
     processVideo( videoPath, hexColorString, outputCsv, threshold, Integer.MAX_VALUE);
 }
@@ -91,8 +91,10 @@ public class VideoProcessor {
 
                 frameCount++;
 
+                double timestampSeconds = grabber.getTimestamp() / 1_000_000.0;
+
                 ImageProcessor imagePro = new ImageProcessor();
-                imagePro.processImage(videoImage, hexColorString, outputCsv, threshold);
+                imagePro.processImage(videoImage, hexColorString, outputCsv, threshold, timestampSeconds);
                 
                 // System.out.println(videoImage.getWidth());
                 System.out.println("Frame counter:" + frameCount);

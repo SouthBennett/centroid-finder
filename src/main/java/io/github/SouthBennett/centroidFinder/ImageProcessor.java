@@ -9,9 +9,7 @@ import javax.imageio.ImageIO;
 
 public class ImageProcessor {
 
-  public void processImage(
-
-  BufferedImage videoImage, String hexTargetColor, String outputCsv, int threshold) {
+  public void processImage(BufferedImage videoImage, String hexTargetColor, String outputCsv, int threshold, double timestampSeconds) {
 
   int targetColor = parseTargetColor(hexTargetColor);
 
