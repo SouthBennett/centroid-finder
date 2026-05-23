@@ -13,7 +13,7 @@ public class VideoProcessorTest {
 
     @Test
     public void processVideoRunsWithoutThrowing() {
-        VideoProcessor processor = new VideoProcessor();
+        VideoFrameProcessor processor = new VideoFrameProcessor();
 
         assertDoesNotThrow(() ->
             processor.processVideo(
@@ -35,7 +35,7 @@ public class VideoProcessorTest {
             outputFile.delete();
         }
 
-        VideoProcessor processor = new VideoProcessor();
+        VideoFrameProcessor processor = new VideoFrameProcessor();
 
         processor.processVideo(
             VALID_VIDEO_PATH,
@@ -58,7 +58,7 @@ public class VideoProcessorTest {
             outputFile.delete();
         }
 
-        VideoProcessor processor = new VideoProcessor();
+        VideoFrameProcessor processor = new VideoFrameProcessor();
 
         processor.processVideo(
             VALID_VIDEO_PATH,
@@ -74,58 +74,58 @@ public class VideoProcessorTest {
     @Test
     public void createGrabberReturnsNonNullGrabber() throws Exception {
         FFmpegFrameGrabber grabber =
-            VideoProcessor.createGrabber(VALID_VIDEO_PATH);
+            VideoFrameProcessor.createGrabber(VALID_VIDEO_PATH);
 
         assertNotNull(grabber);
 
-        VideoProcessor.closeGrabber(grabber);
+        VideoFrameProcessor.closeGrabber(grabber);
     }
 
     @Test
     public void createGrabberHasPositiveVideoWidth() throws Exception {
         FFmpegFrameGrabber grabber =
-            VideoProcessor.createGrabber(VALID_VIDEO_PATH);
+            VideoFrameProcessor.createGrabber(VALID_VIDEO_PATH);
 
         assertTrue(grabber.getImageWidth() > 0);
 
-        VideoProcessor.closeGrabber(grabber);
+        VideoFrameProcessor.closeGrabber(grabber);
     }
 
     @Test
     public void createGrabberHasPositiveVideoHeight() throws Exception {
         FFmpegFrameGrabber grabber =
-            VideoProcessor.createGrabber(VALID_VIDEO_PATH);
+            VideoFrameProcessor.createGrabber(VALID_VIDEO_PATH);
 
         assertTrue(grabber.getImageHeight() > 0);
 
-        VideoProcessor.closeGrabber(grabber);
+        VideoFrameProcessor.closeGrabber(grabber);
     }
 
     @Test
     public void createGrabberHasPositiveFrameRate() throws Exception {
         FFmpegFrameGrabber grabber =
-            VideoProcessor.createGrabber(VALID_VIDEO_PATH);
+            VideoFrameProcessor.createGrabber(VALID_VIDEO_PATH);
 
         assertTrue(grabber.getFrameRate() > 0);
 
-        VideoProcessor.closeGrabber(grabber);
+        VideoFrameProcessor.closeGrabber(grabber);
     }
 
     @Test
     public void createGrabberHasPositiveFrameCount() throws Exception {
         FFmpegFrameGrabber grabber =
-            VideoProcessor.createGrabber(VALID_VIDEO_PATH);
+            VideoFrameProcessor.createGrabber(VALID_VIDEO_PATH);
 
         assertTrue(grabber.getLengthInFrames() > 0);
 
-        VideoProcessor.closeGrabber(grabber);
+        VideoFrameProcessor.closeGrabber(grabber);
     }
 
     @Test
     public void createGrabberThrowsForBadPath() {
         assertThrows(
             IllegalArgumentException.class,
-            () -> VideoProcessor.createGrabber(
+            () -> VideoFrameProcessor.createGrabber(
                 "sampleVideo/does-not-exist.mp4"
             )
         );
@@ -133,7 +133,7 @@ public class VideoProcessorTest {
 
     @Test
     public void processVideoThrowsForBadPath() {
-        VideoProcessor processor = new VideoProcessor();
+        VideoFrameProcessor processor = new VideoFrameProcessor();
 
         assertThrows(
             IllegalArgumentException.class,
@@ -150,10 +150,10 @@ public class VideoProcessorTest {
     @Test
     public void extractVideoFramesRunsWithoutThrowing() throws Exception {
         FFmpegFrameGrabber grabber =
-            VideoProcessor.createGrabber(VALID_VIDEO_PATH);
+            VideoFrameProcessor.createGrabber(VALID_VIDEO_PATH);
 
         assertDoesNotThrow(() ->
-            VideoProcessor.extractVideoFrames(
+            VideoFrameProcessor.extractVideoFrames(
                 grabber,
                 "000000",
                 "sampleOutput/test-groups.csv",
@@ -162,17 +162,17 @@ public class VideoProcessorTest {
             )
         );
 
-        VideoProcessor.closeGrabber(grabber);
+        VideoFrameProcessor.closeGrabber(grabber);
     }
 
     @Test
     public void extractVideoFramesThrowsForInvalidHexColor() throws Exception {
         FFmpegFrameGrabber grabber =
-            VideoProcessor.createGrabber(VALID_VIDEO_PATH);
+            VideoFrameProcessor.createGrabber(VALID_VIDEO_PATH);
 
         assertThrows(
             IllegalArgumentException.class,
-            () -> VideoProcessor.extractVideoFrames(
+            () -> VideoFrameProcessor.extractVideoFrames(
                 grabber,
                 "BADHEX",
                 "sampleOutput/test-groups.csv",
@@ -181,6 +181,6 @@ public class VideoProcessorTest {
             )
         );
 
-        VideoProcessor.closeGrabber(grabber);
+        VideoFrameProcessor.closeGrabber(grabber);
     }
 }
