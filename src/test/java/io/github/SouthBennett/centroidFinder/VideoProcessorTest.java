@@ -156,7 +156,7 @@ public class VideoProcessorTest {
             VideoFrameProcessor.extractVideoFrames(
                 grabber,
                 "000000",
-                "sampleOutput/test-groups.csv",
+                "test-groups.csv",
                 125,
                 1
             )
