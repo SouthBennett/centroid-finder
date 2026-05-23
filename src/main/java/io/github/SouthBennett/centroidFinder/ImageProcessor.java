@@ -4,6 +4,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.PrintWriter;
 import java.util.List;
+import java.util.Collections;
 
 import javax.imageio.ImageIO;
 
@@ -25,7 +26,11 @@ public class ImageProcessor {
 
   List<Group> groups = findGroups(binarizer, videoImage);
 
-  writeGroupsToCsv(groups, outputCsv);
+  Group largestGroup = Collections.max(groups);
+
+  System.out.println(largestGroup.toCsvRow());
+
+  // writeGroupsToCsv(groups, outputCsv);
 }
 
 
