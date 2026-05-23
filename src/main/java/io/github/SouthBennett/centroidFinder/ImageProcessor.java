@@ -89,5 +89,12 @@ public List<Group> findGroups(ImageBinarizer binarizer,BufferedImage videoImage)
     }
   }
 
-
+  public void writeNoCentroidRow(String outputCsv, double timestampSeconds) {
+    try (PrintWriter writer = new PrintWriter(new FileWriter(outputCsv, true))) {
+      writer.println(timestampSeconds + ",-1,-1");
+    } catch (Exception e) {
+      System.err.println("Error writing CSV.");
+      e.printStackTrace();
+    }
+  }
 }
