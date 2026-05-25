@@ -202,3 +202,5 @@ cython_debug/
 target/
 
 sampleVideo/*.mp4
+
+node_modules/
