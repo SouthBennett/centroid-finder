@@ -1,6 +1,10 @@
 import fs from "fs";
 import ffmpeg from "fluent-ffmpeg";
 import ffmpegPath from "ffmpeg-static";
+import ffprobe from "ffprobe-static";
+
+ffmpeg.setFfmpegPath(ffmpegPath);
+ffmpeg.setFfprobePath(ffprobe.path);
 
 export function getVideos(req, res) {
   try {
@@ -25,11 +29,29 @@ export function getThumbnail(req, res) {
         error: "Video not found"
       });
     }
-    res.send(`Thumbnail route for ${filename} works`);
+    // res.send(`Thumbnail route for ${filename} works`);
+    // const thumbnailPath = `./thumbnails/${filename}.jpg`;
+
+    ffmpeg(videoPath).screenshots({
+      count: 1,
+      folder: "./thumbnails",
+      filename:`${filename}.jpg`,
+      size: "320x240"
+    })
+    .on("end", () => {
+      res.sendFile(process.cwd() + `/thumbnails/${filename}.jpg`);
+    })
+    .on("error", (error) => {
+      console.error(error);
+      res.status(500).json({
+        error: "Failed to generate thumbnail"
+      });
+    });
   } catch (error) {
     console.error(error);
+    
     res.status(500).json({
-      error: "Failed to generate thumbnail"
-    });
+      error: "Internal Server error"
+    })
   }
 }
