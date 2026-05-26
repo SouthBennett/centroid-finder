@@ -1,6 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
-import chalk from "chalk"
+import chalk from "chalk";
+import videoRoutes from "./routes/videoRoutes.js";
 
 dotenv.config({ path: "../.env" });
 
@@ -9,6 +10,8 @@ const app = express();
 const PORT = process.env.PORT;
 
 app.use(express.json());
+
+app.use("/api", videoRoutes);
 
 app.use("/videos", express.static(process.env.VIDEO_DIR));
 
