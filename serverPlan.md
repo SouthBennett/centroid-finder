@@ -43,5 +43,8 @@
 - tracks job status
 19. Test every endpoint.
 - either use postman or insomia
+- also test endpoints using Jest and Superjest
+- Jest runs the tests
+- Superjest allows us to make fake http requests
 20. Clean up README/serverplan notes.
 - this is a rough rough draft plan on what needs to be done, will updated when we work down the check list and add more as needed
