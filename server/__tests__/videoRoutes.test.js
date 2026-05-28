@@ -4,7 +4,7 @@ import videoRoutes from "../routes/videoRoutes.js"; //import the real video rout
 
 const app = express(); // creates instance of express 
 
-app.use(express.json()) // allow json request bodies
+app.use(express.json());// allow json request bodies
 
 app.use("/api", videoRoutes); // mount routes under /api
 
@@ -16,7 +16,7 @@ test("GET /api/videos returns a list of videos", async () => {
   expect(response.statusCode).toBe(200);
   // Check that the response body is an array
   expect(Array.isArray(response.body)).toBe(true);
-})
+});
 
 // Test invalid thumbnail request
 test("GET / api/thumbnail/:filename returns 404 for missing video", async () => {
@@ -26,4 +26,14 @@ test("GET / api/thumbnail/:filename returns 404 for missing video", async () => 
   expect(response.statusCode).toBe(404);
   // verify response contains error message
   expect(response.body.error).toBe("Video not found"); 
-})
+});
+
+// Test successful thumbnail generation
+test("GET /api/thumbnail/:filename returns a thumbnail image", async () => {
+  // Send request using a real video filename
+  const response = await request(app).get("/api/thumbnail/ensantina.mp4");
+  // verify endpoint returns success 200 status
+  expect(response.statusCode).toBe(200);
+  // verify response is a JPEG image
+  expect(response.header["content-type"]).toContain("image/jpeg");
+});
