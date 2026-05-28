@@ -65,3 +65,15 @@ test("POST /api/process/:filename creates a processing job", async () => {
   // toBeDefined() only checks that what we got back is not undefined
   expect(response.body.jobID).toBeDefined();
 });
+
+// Test invalid job status requests
+test("GET /api/process/:jobID/status returns 404 for invalid job IDs", async () => {
+  // Send request using a fake job ID
+  const response = await request(app)
+    .get("/api/process/fake-job-id/status");
+  
+  // verify endpoint returns not found
+  expect(response.statusCode).toBe(404);
+  // verify correct error message is returned
+  expect(response.body.error).toBe("You have no Job!!");
+});
