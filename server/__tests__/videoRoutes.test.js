@@ -17,3 +17,13 @@ test("GET /api/videos returns a list of videos", async () => {
   // Check that the response body is an array
   expect(Array.isArray(response.body)).toBe(true);
 })
+
+// Test invalid thumbnail request
+test("GET / api/thumbnail/:filename returns 404 for missing video", async () => {
+  // send request using fake filename
+  const response = await request(app).get("/api/thumbnail/fakevideo.mp4");
+  // verify endpoint returns 404 not found
+  expect(response.statusCode).toBe(404);
+  // verify response contains error message
+  expect(response.body.error).toBe("Video not found"); 
+})
