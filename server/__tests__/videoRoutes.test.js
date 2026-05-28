@@ -37,3 +37,13 @@ test("GET /api/thumbnail/:filename returns a thumbnail image", async () => {
   // verify response is a JPEG image
   expect(response.header["content-type"]).toContain("image/jpeg");
 });
+
+// Test process endpoint validation
+test("POST /api/process/:filename returns 400 when query params are missing", async () => {
+  // Send request without target color or threshold
+  const response = await request(app).post("/api/process/ensantina.mp4");
+  // verify endpoint rejects imcomplete requests
+  expect(response.statusCode).toBe(400);
+  // verify correct error message is returned
+  expect(response.body.error).toBe("Missing target color and a threshold to find the mander")
+});
