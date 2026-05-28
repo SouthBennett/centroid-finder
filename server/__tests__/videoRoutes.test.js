@@ -47,3 +47,21 @@ test("POST /api/process/:filename returns 400 when query params are missing", as
   // verify correct error message is returned
   expect(response.body.error).toBe("Missing target color and a threshold to find the mander")
 });
+
+// Test successful processing job creation 
+test("POST /api/process/:filename creates a processing job", async () => {
+  // Send request with valid query parameters
+  const response = await request(app)
+    .post("/api/process/ensantina.mp4")
+    .query({
+      targetColor: 115938,
+      threshold: 115
+    });
+  // verify endpoint accepts the processing request
+  expect(response.statusCode).toBe(202);
+  // verify a jobID was returned
+  // toBeDefined() checks if the api returned SOME kind of jobID.
+  // toBeDefined() doesnt care what the value is, type, or exact string. 
+  // toBeDefined() only checks that what we got back is not undefined
+  expect(response.body.jobID).toBeDefined();
+});
