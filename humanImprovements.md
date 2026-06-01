@@ -10,12 +10,14 @@ split every functional code into methods
 printVideoMetaData is a method only used for debugging, blank files in folder for git tracking
 
 - Where would additional Java interfaces be appropriate?
+possibly VideoProcessor.java if we plan on adding other types of image or video processing tasks
 
 - How can you make things simpler, more-usable, and easier to maintain?
 maybe combine methods if it doesn't make the method too big 
 
 - Other refactoring improvements?
 remove system.out.println maybe
+possibly track visited [row][col] pairs using a boolean 2d array instead of manipulating the actual grid by turnig 1's into 0s
 
 
 # adding tests
@@ -31,6 +33,7 @@ always could have more tests
 
 # improving error handling
 - What parts of your code are brittle?
+endpoint error handling(endpoint says job is still processing even though it's done. )
 
 - Where could you better be using exceptions?
 anywhere is arguments being used or server connections
@@ -57,7 +60,9 @@ yes
 
 - Where would be the most important places to add documentation to make your code easier to read?
 the files that handle the most args or inputs
+
 - Other documentation improvements?
+Add javadocs to all methods that way they are explained clearly
 
 
 # improving performance (optional)
