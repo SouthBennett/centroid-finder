@@ -1,6 +1,11 @@
 import request from "supertest"; // import Supertest to simualte HTTP requests
 import express from "express"; // import express to create a small test server
 import videoRoutes from "../routes/videoRoutes.js"; //import the real video routes from the project
+import {
+  getVideoPath,
+  getResultPath,
+  getThumbnailPath
+} from "../utils/pathUtils.js";
 
 const app = express(); // creates instance of express 
 
@@ -76,4 +81,25 @@ test("GET /api/process/:jobID/status returns 404 for invalid job IDs", async () 
   expect(response.statusCode).toBe(404);
   // verify correct error message is returned
   expect(response.body.error).toBe("You have no Job!!");
+});
+
+// Test path helper for video files
+test("getVideoPath returns the correct video path", () => {
+  const result = getVideoPath("ensantina.mp4");
+
+  expect(result).toBe("./videos/ensantina.mp4");
+});
+
+// Test path helper for result CSV files
+test("getResultPath returns the correct CSV result path", () => {
+  const result = getResultPath("ensantina.mp4");
+
+  expect(result).toBe("./results/ensantina.mp4.csv");
+});
+
+// Test path helper for thumbnail files
+test("getThumbnailPath returns the correct thumbnail path", () => {
+  const result = getThumbnailPath("ensantina.mp4");
+
+  expect(result).toBe("./thumbnails/ensantina.mp4.jpg");
 });
