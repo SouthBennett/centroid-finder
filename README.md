@@ -1,74 +1,94 @@
 # centroid-finder
 
-## *DO THIS FIRST* Wave 0: AI Rules 
-AI is *NOT ALLOWED* for generating implementations of the classes.
-AI is allowed for helping you make test cases.
+## Project Overview
 
-Don't have it just create the tests mindlessly for you though! Make sure you're actively involved in making the tests.
+`centroid-finder` is a mixed Java / Node.js project for finding color-matching centroids in video frames and serving video processing requests from a web API.
 
-DO NOT MIX HUMAN AND AI COMMITS.
-EVERY COMMIT THAT USES AI MUST START WITH THE COMMIT MESSAGE "AI Used" AND IT MUST ONLY CREATE/ALTER TEST FILES
+- The `processor` module contains the Java video/image processing code.
+- The `server` module contains a Node.js Express service that can invoke processing workflows and manage uploads/results.
 
-For this wave, please have each partner make a commit below with their username acknowledging that they understand the rules, according to the following format:
+## Author
 
-"I, YOUR_GITHUB_USERNAME, understand that AI is ONLY to be used for tests, and that every commit that I use AI for must start with 'AI Used'"
+- Project owner: `io.github.SouthBennett`
+- Maintainers: repository contributors
 
-Connor: Completed:
-Xavier: Completed:
+## Tech Stack
 
-## Wave 1: Understand
-Read through ImageSummaryApp in detail with your partner. Understand what each part does. This will involve looking through and reading ALL of the other classes records and interfaces. This will take a long time, but it is worth it! Do not skimp on this part, you will regret it! Also look at the sampleInput and sampleOutput folders to understand what comes in and what goes out.
+- Java 21
+- Maven
+- JavaCV / FFmpeg
+- JUnit Jupiter for Java tests
+- Node.js (ESM)
+- Express
+- fluent-ffmpeg
+- Jest / SuperTest for server tests
 
-As you read through the files, take notes in notes.md to help you and your partner understand. Make frequent commits to your notes.
+## Processor Module
 
-## Wave 2: Implement DfsBinaryGroupFinder
-This class takes in a binary image array and finds the connected groups. It will look very similar in many ways to the explorer problem you did for DFS! You'll need to understand the Group record to do this well.
+### What it does
 
-Consider STARTING with the unit tests. Remember, you can use AI to help with the unit tests but NOT the implementation. Any AI commit must start with the message "AI Used"
+The Java processor reads a video file frame by frame, binarizes each frame based on a target color and threshold, finds connected pixel groups, computes centroids, and writes results to a CSV.
 
-MAKE SURE YOU MAKE THOROUGH UNIT TESTS.
+### How to run
 
-## Wave 3: Implement EuclideanColorDistance
-Implement EuclideanColorDistance. You may consider adding a helper method for converting a hex int into R, G, and B components.
+From the `processor` directory:
 
-Again, consider starting with unit tests. You may consider using WolframAlpha to help you get correct expected values.
+1. Build the processor:
+   - `mvn package`
 
-MAKE SURE YOU MAKE THOROUGH UNIT TESTS.
+2. Run the Java program:
+   - `mvn exec:java -Dexec.mainClass="io.github.SouthBennett.centroidFinder.VideoProcessor" -Dexec.args="input.mp4 output.csv FF0000 100"`
 
-## Wave 4: Implement DistanceImageBinarizer
-To do this you will need to research `java.awt.image.BufferedImage`. In particular, make sure to understand `getRGB` and `setRGB`. When creating a new image, you can use the below to start the instance:
+3. Or run the generated jar with dependencies:
+   - `java -jar target/centroidFinder-1.0-SNAPSHOT-jar-with-dependencies.jar input.mp4 output.csv FF0000 100`
 
-```
-new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-```
+### Notes
 
-Note that a lot of this class will be calling methods in BinaryGroupFinder and ColorDistanceFinder!
+- `args[0]` = input video path
+- `args[1]` = output CSV path
+- `args[2]` = hex target color (e.g. `FF0000`)
+- `args[3]` = integer threshold
 
-MAKE SURE YOU MAKE THOROUGH UNIT TESTS. Consider asking the AI to teach you about mocks and fakes in unit testing and how they may be helpful here.
+## Server Module
 
-HINT: `getRGB` returns a 32-bit AARRGGBB color (includes alpha channel). However, ColorDistanceFinder expects the colors to come in RRGGBB format (no alpha channel (most significant 8 bits set to 0)). What can you do to make this conversion happen?
+### What it does
 
-## Wave 5: Implement BinarizingImageGroupFinder
-This implementation will be relatively short! It will mostly be calling methods in ImageBinarizer and BinaryGroupFinder.
+The Node.js server exposes endpoints to upload videos and trigger processing jobs. It uses safe path helpers and FFmpeg utilities to manage video files, thumbnails, and results.
 
-MAKE SURE YOU MAKE THOROUGH UNIT TESTS. Consider asking the AI to teach you about mocks and fakes in unit testing and how they may be helpful here. I recommend NOT using any external library other than JUnit. If the AI wants to use another external library, consider asking it not to and to make stubs instead.
+### How to run
 
-## Wave 6: Validation
-To validate your code is working, make sure you're in the centroid-finder directory and run the below command:
+From the `server` directory:
 
-```
-javac -cp lib/junit-platform-console-standalone-6.0.3.jar src/*.java && java -cp src ImageSummaryApp sampleInput/squares.jpg FFA200 164
-```
+1. Install dependencies:
+   - `npm install`
 
-This will compile your files and run the main method in ImageSummaryApp against the sample image with a target color of orange and a threshold of 164. It should binarized.png and groups.csv which should match the corresponding files in the sampleOutput directory.
+2. Start the server:
+   - `npm start`
 
-Once you have confirmed it is working, clean up your code, make sure it's committed and pushed, and make a PR to submit. Great job!
+3. Run in development mode:
+   - `npm run dev`
 
-## Optional Wave 7: Enhancements?
-If you want to, you can make a new branch to start experimenting. See if you can come up with a better color distance method (hint: look up perceptual color spaces). See if you can make your code more efficient or mor suited to spotting salamanders! Experiment with other test files. PLEASE MAKE SURE THIS IS IN A SEPARATE BRANCH FROM YOUR SUBMISSION.
+## Testing
 
+### Java tests
 
+From the `processor` directory:
+- `mvn test`
 
+### Node.js tests
 
+From the `server` directory:
+- `npm test`
 
-----------------------------------------this is the video branch!!!!!---------------------------------
+## Project Structure
+
+- `processor/src/main/java/...` Java processing code
+- `processor/src/test/java/...` Java unit tests
+- `server/index.js` Express entry point
+- `server/routes/` API route definitions
+- `server/controllers/` request handling logic
+- `server/utils/` helper utilities like path construction
+
+---
+
+This README now includes basic usage, project structure, and how to run both the Java processor and Node server.
