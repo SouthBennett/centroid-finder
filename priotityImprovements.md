@@ -1,7 +1,7 @@
 # Top Two Improvements
 
 1. Writing Documentation
-  - Per-folder README: explain purpose of processor vs server, how they interact, data exchange format for centroids/results.
+  - Add Javadoc per method explaining what the method is and what its used for.
   - Update README.md file explaining to the user how to run the Centroid Finder program. And explaining the overall project. (author, tech stack, etc...)
 
 2. Adding Tests
