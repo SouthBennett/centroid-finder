@@ -3,6 +3,12 @@ import ffmpeg from "fluent-ffmpeg";
 import ffmpegPath from "ffmpeg-static";
 import ffprobe from "ffprobe-static";
 
+import {
+  getVideoPath,
+  getResultPath,
+  getThumbnailPath
+} from "../utils/pathUtils.js";
+
 ffmpeg.setFfmpegPath(ffmpegPath);
 ffmpeg.setFfprobePath(ffprobe.path);
 
@@ -35,7 +41,7 @@ export function getThumbnail(req, res) {
     // extract the video filename from the URL path parameter
     const filename = req.params.filename;
     // build the full path to the requested video file by combining the video directory and the file name parameter
-    const videoPath = `./videos/${filename}`;
+    const videoPath = getVideoPath(filename);
     // check if the video file exists, if it doesn't return a 404 error
     if (!fs.existsSync(videoPath)) {
       return res.status(404).json({
@@ -60,7 +66,7 @@ export function getThumbnail(req, res) {
     .on("end", () => {
       // send the generated thumbnail image file back as the response.
       // the path is the current directory, plus the thumbail's location
-      res.sendFile(process.cwd() + `/thumbnails/${filename}.jpg`);
+      res.sendFile(process.cwd() + "/" + getThumbnailPath(filename));
     })
     // if screenshot generation fails, log error and send a 500 response
     .on("error", (error) => {
@@ -100,7 +106,7 @@ export function startProcessingJob(req, res){
     }
 
     // builds a video path
-    const videoPath = `./videos/${filename}`
+    const videoPath = getVideoPath(filename);
  
     if(!fs.existsSync(videoPath)){
       return res.status(404).json({
@@ -114,14 +120,14 @@ export function startProcessingJob(req, res){
     //  console.log(jobID);
 
     // build path to write the centroid groups in a csv file
-    const outputCSV = `./results/${filename}.csv`
+    const outputCSV = getResultPath(filename);
     // console.log(outputCSV);
 
     // stores the state of the job("record in memory"). puts a job in the jobs with an ID and says hey we are tracking you now 
     // think of it like a server memory database 
     jobs[jobID] = {
       status: "Processing looking for the mander now",
-      result: `./results/${filename}.csv`
+      result: getResultPath(filename)
     }
     
     // spawn your jar
