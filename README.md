@@ -10,7 +10,7 @@
 ## Author
 
 - Project owner: `io.github.SouthBennett`
-- Maintainers: repository contributors
+- Maintainers: Xavier Lewis and Connor Hughes
 
 ## Tech Stack
 
@@ -34,13 +34,10 @@ The Java processor reads a video file frame by frame, binarizes each frame based
 From the `processor` directory:
 
 1. Build the processor:
-   - `mvn package`
+   - `mvn compile`
 
-2. Run the Java program:
-   - `mvn exec:java -Dexec.mainClass="io.github.SouthBennett.centroidFinder.VideoProcessor" -Dexec.args="input.mp4 output.csv FF0000 100"`
-
-3. Or run the generated jar with dependencies:
-   - `java -jar target/centroidFinder-1.0-SNAPSHOT-jar-with-dependencies.jar input.mp4 output.csv FF0000 100`
+2. Run the generated jar with dependencies:
+   - `java -jar videoprocessor.jar videos/ensantina.mp4 results/output.csv 115938 115`
 
 ### Notes
 
