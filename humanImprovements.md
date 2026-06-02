@@ -5,6 +5,7 @@
 
 - How can you split up large methods or classes into smaller components?
 split every functional code into methods
+use helper methods
 
 - Are there unused files/methods that can be removed?
 printVideoMetaData is a method only used for debugging, blank files in folder for git tracking
@@ -63,6 +64,7 @@ the files that handle the most args or inputs
 
 - Other documentation improvements?
 Add javadocs to all methods that way they are explained clearly
+Make sure indentation is correct for better readability
 
 
 # improving performance (optional)
