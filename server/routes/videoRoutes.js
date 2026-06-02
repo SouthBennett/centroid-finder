@@ -1,5 +1,6 @@
 import express from "express";
-import { getVideos, getThumbnail, startProcessingJob, getJobStatus } from "../controllers/videoController.js";
+import { getVideos, getThumbnail } from "../controllers/videoController.js";
+import { startProcessingJob, getJobStatus } from "../controllers/jobController.js";
 
 const router = express.Router();
 
