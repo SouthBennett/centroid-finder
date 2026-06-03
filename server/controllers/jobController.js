@@ -34,12 +34,30 @@ export function startProcessingJob(req, res) {
       });
     }
 
+    // Validate targetColor is a 6-digit hex string (accepts #RRGGBB or RRGGBB or 0xRRGGBB)
+    const hexPattern = /^(#|0x)?[0-9A-Fa-f]{6}$/;
+    if (!hexPattern.test(String(targetColor))) {
+      return res.status(400).json({ error: "Invalid targetColor hex format" });
+    }
+
+    // Validate threshold is a positive integer
+    const thresholdNum = Number(threshold);
+    if (!Number.isInteger(thresholdNum) || thresholdNum <= 0) {
+      return res.status(400).json({ error: "Invalid threshold value" });
+    }
+
     const videoPath = getVideoPath(filename);
 
     if (!fs.existsSync(videoPath)) {
       return res.status(404).json({
         error: "No Mander videos found"
       });
+    }
+
+    // Ensure the configured JAR exists before spawning the process
+    if (!process.env.JAR_PATH || !fs.existsSync(process.env.JAR_PATH)) {
+      console.log(chalk.redBright("Missing or invalid JAR_PATH:"), process.env.JAR_PATH);
+      return res.status(500).json({ error: "JAR file not found" });
     }
 
     const jobID = uuidv4();

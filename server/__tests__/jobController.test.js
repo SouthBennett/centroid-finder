@@ -1,5 +1,6 @@
 import { jest } from '@jest/globals';
 import fs from 'fs';
+import { getVideoPath } from '../utils/pathUtils.js';
 
 describe('jobController', () => {
   beforeEach(async () => {
@@ -32,7 +33,7 @@ describe('jobController', () => {
 
     const { startProcessingJob } = await import('../controllers/jobController.js');
 
-    const req = { params: { filename: 'ensantina.mp4' }, query: { targetColor: 1, threshold: 2 } };
+    const req = { params: { filename: 'ensantina.mp4' }, query: { targetColor: '#FFAABB', threshold: '115' } };
     const res = {
       status: jest.fn().mockReturnThis(),
       json: jest.fn().mockReturnThis()
@@ -45,11 +46,16 @@ describe('jobController', () => {
   });
 
   test('startProcessingJob creates job and returns 202 with jobID', async () => {
-    jest.spyOn(fs, 'existsSync').mockImplementation(() => true);
+    process.env.JAR_PATH = '/tmp/fake.jar';
+    jest.spyOn(fs, 'existsSync').mockImplementation((p) => {
+      if (p === getVideoPath('ensantina.mp4')) return true;
+      if (p === process.env.JAR_PATH) return true;
+      return false;
+    });
 
     const { startProcessingJob } = await import('../controllers/jobController.js');
 
-    const req = { params: { filename: 'ensantina.mp4' }, query: { targetColor: 115938, threshold: 115 } };
+    const req = { params: { filename: 'ensantina.mp4' }, query: { targetColor: '#FFAABB', threshold: '115' } };
     const res = {
       status: jest.fn().mockReturnThis(),
       json: jest.fn().mockReturnThis()
@@ -75,5 +81,58 @@ describe('jobController', () => {
 
     expect(res.status).toHaveBeenCalledWith(404);
     expect(res.json).toHaveBeenCalledWith({ error: 'You have no Job!!' });
+  });
+
+  test('startProcessingJob returns 400 for invalid hex targetColor', async () => {
+    const { startProcessingJob } = await import('../controllers/jobController.js');
+
+    const req = { params: { filename: 'ensantina.mp4' }, query: { targetColor: 'zzzzzz', threshold: '115' } };
+    const res = {
+      status: jest.fn().mockReturnThis(),
+      json: jest.fn().mockReturnThis()
+    };
+
+    await startProcessingJob(req, res);
+
+    expect(res.status).toHaveBeenCalledWith(400);
+    expect(res.json).toHaveBeenCalledWith({ error: 'Invalid targetColor hex format' });
+  });
+
+  test('startProcessingJob returns 400 for invalid threshold', async () => {
+    const { startProcessingJob } = await import('../controllers/jobController.js');
+
+    const req = { params: { filename: 'ensantina.mp4' }, query: { targetColor: '#FFAABB', threshold: 'abc' } };
+    const res = {
+      status: jest.fn().mockReturnThis(),
+      json: jest.fn().mockReturnThis()
+    };
+
+    await startProcessingJob(req, res);
+
+    expect(res.status).toHaveBeenCalledWith(400);
+    expect(res.json).toHaveBeenCalledWith({ error: 'Invalid threshold value' });
+  });
+
+  test('startProcessingJob returns 500 when JAR missing', async () => {
+    process.env.JAR_PATH = '/tmp/missing.jar';
+    jest.spyOn(fs, 'existsSync').mockImplementation((p) => {
+      if (p === getVideoPath('ensantina.mp4')) return true;
+      if (p === process.env.JAR_PATH) return false;
+      return false;
+    });
+
+    const { startProcessingJob } = await import('../controllers/jobController.js');
+
+    const req = { params: { filename: 'ensantina.mp4' }, query: { targetColor: '#FFAABB', threshold: '115' } };
+    const res = {
+      status: jest.fn().mockReturnThis(),
+      json: jest.fn().mockReturnThis()
+    };
+
+    await startProcessingJob(req, res);
+
+    expect(res.status).toHaveBeenCalledWith(500);
+    expect(res.json).toHaveBeenCalledWith({ error: 'JAR file not found' });
+    delete process.env.JAR_PATH;
   });
 });
