@@ -7,7 +7,6 @@ import io.github.SouthBennett.centroidFinder.Group;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-
 import java.util.List;
 
 public class DfsBinaryGroupFinderTest {
@@ -31,6 +30,33 @@ public class DfsBinaryGroupFinderTest {
         List<Group> groups = finder.findConnectedGroups(image);
 
         assertEquals(0, groups.size());
+    }
+
+    @Test
+    public void testTwoByTwoSinglePixelGroup() {
+        int[][] image = {
+            {0, 0},
+            {0, 1}
+        };
+
+        List<Group> groups = finder.findConnectedGroups(image);
+
+        assertEquals(1, groups.size());
+        assertGroup(groups.get(0), 1, 1, 1);
+    }
+
+    @Test
+    public void testIsolatedSinglePixelInLargerImage() {
+        int[][] image = {
+            {0, 0, 0},
+            {0, 1, 0},
+            {0, 0, 0}
+        };
+
+        List<Group> groups = finder.findConnectedGroups(image);
+
+        assertEquals(1, groups.size());
+        assertGroup(groups.get(0), 1, 1, 1);
     }
 
     @Test
@@ -97,6 +123,21 @@ public class DfsBinaryGroupFinderTest {
 
         assertEquals(1, groups.size());
         assertGroup(groups.get(0), 4, 0, 1);
+    }
+
+    @Test
+    public void testBorderPixelsDoNotWrap() {
+        int[][] image = {
+            {1, 0, 0},
+            {0, 0, 0},
+            {1, 0, 0}
+        };
+
+        List<Group> groups = finder.findConnectedGroups(image);
+
+        assertEquals(2, groups.size());
+        assertGroup(groups.get(0), 1, 0, 2);
+        assertGroup(groups.get(1), 1, 0, 0);
     }
 
     @Test
