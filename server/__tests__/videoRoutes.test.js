@@ -1,3 +1,6 @@
+// Integration-style tests for video routes. These tests exercise
+// thumbnail generation and job creation endpoints. Some tests stub
+// filesystem checks so they can run without real video/JAR files.
 import request from "supertest"; // import Supertest to simualte HTTP requests
 import express from "express"; // import express to create a small test server
 import videoRoutes from "../routes/videoRoutes.js"; //import the real video routes from the project
@@ -6,6 +9,8 @@ import {
   getResultPath,
   getThumbnailPath
 } from "../utils/pathUtils.js";
+import fs from 'fs';
+import { jest } from '@jest/globals';
 
 const app = express(); // creates instance of express 
 
@@ -55,6 +60,14 @@ test("POST /api/process/:filename returns 400 when query params are missing", as
 
 // Test successful processing job creation 
 test("POST /api/process/:filename creates a processing job", async () => {
+  // Ensure JAR_PATH exists for this test and the video file exists
+  process.env.JAR_PATH = '/tmp/fake.jar';
+  const existsSpy = jest.spyOn(fs, 'existsSync').mockImplementation((p) => {
+    if (p === getVideoPath('ensantina.mp4')) return true;
+    if (p === process.env.JAR_PATH) return true;
+    return false;
+  });
+
   // Send request with valid query parameters
   const response = await request(app)
     .post("/api/process/ensantina.mp4")
@@ -69,6 +82,8 @@ test("POST /api/process/:filename creates a processing job", async () => {
   // toBeDefined() doesnt care what the value is, type, or exact string. 
   // toBeDefined() only checks that what we got back is not undefined
   expect(response.body.jobID).toBeDefined();
+  existsSpy.mockRestore();
+  delete process.env.JAR_PATH;
 });
 
 // Test invalid job status requests
