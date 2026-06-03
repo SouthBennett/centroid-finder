@@ -1,3 +1,6 @@
+// Integration-style tests for video routes. These tests exercise
+// thumbnail generation and job creation endpoints. Some tests stub
+// filesystem checks so they can run without real video/JAR files.
 import request from "supertest"; // import Supertest to simualte HTTP requests
 import express from "express"; // import express to create a small test server
 import videoRoutes from "../routes/videoRoutes.js"; //import the real video routes from the project

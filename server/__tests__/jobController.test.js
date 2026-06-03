@@ -1,3 +1,4 @@
+// Unit tests for jobController: validate input handling and job lifecycle
 import { jest } from '@jest/globals';
 import fs from 'fs';
 import { getVideoPath } from '../utils/pathUtils.js';
@@ -11,6 +12,7 @@ describe('jobController', () => {
     }));
   });
 
+  // Missing query parameters -> expect 400 Bad Request
   test('startProcessingJob returns 400 when query params are missing', async () => {
     const { startProcessingJob } = await import('../controllers/jobController.js');
 
@@ -28,6 +30,7 @@ describe('jobController', () => {
     });
   });
 
+  // Video file missing on disk -> expect 404 Not Found
   test('startProcessingJob returns 404 when video not found', async () => {
     jest.spyOn(fs, 'existsSync').mockImplementation(() => false);
 
@@ -45,6 +48,7 @@ describe('jobController', () => {
     expect(res.json).toHaveBeenCalledWith({ error: 'No Mander videos found' });
   });
 
+  // Valid inputs and JAR present -> should create a job and return 202
   test('startProcessingJob creates job and returns 202 with jobID', async () => {
     process.env.JAR_PATH = '/tmp/fake.jar';
     jest.spyOn(fs, 'existsSync').mockImplementation((p) => {
@@ -68,6 +72,7 @@ describe('jobController', () => {
     expect(jsonArg.jobID).toBeDefined();
   });
 
+  // Unknown job ID -> expect 404
   test('getJobStatus returns 404 for invalid job id', async () => {
     const { getJobStatus } = await import('../controllers/jobController.js');
 
@@ -83,6 +88,7 @@ describe('jobController', () => {
     expect(res.json).toHaveBeenCalledWith({ error: 'You have no Job!!' });
   });
 
+  // Invalid targetColor format -> expect 400
   test('startProcessingJob returns 400 for invalid hex targetColor', async () => {
     const { startProcessingJob } = await import('../controllers/jobController.js');
 
@@ -98,6 +104,7 @@ describe('jobController', () => {
     expect(res.json).toHaveBeenCalledWith({ error: 'Invalid targetColor hex format' });
   });
 
+  // Non-numeric threshold -> expect 400
   test('startProcessingJob returns 400 for invalid threshold', async () => {
     const { startProcessingJob } = await import('../controllers/jobController.js');
 
@@ -113,6 +120,7 @@ describe('jobController', () => {
     expect(res.json).toHaveBeenCalledWith({ error: 'Invalid threshold value' });
   });
 
+  // JAR_PATH missing or points to non-existent file -> expect 500
   test('startProcessingJob returns 500 when JAR missing', async () => {
     process.env.JAR_PATH = '/tmp/missing.jar';
     jest.spyOn(fs, 'existsSync').mockImplementation((p) => {
