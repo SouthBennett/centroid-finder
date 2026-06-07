@@ -11,3 +11,17 @@
 - Log the total distance the salamander traveled
 
 - Track when its moving and when it's not moving and compare the 2 time differences
+
+- Furthest point reached from starting position
+
+- Total area explored
+
+- Generate a "salamander racing line"
+
+- Build a web dashboard with live tracking statistics
+
+- Compare original image vs processed image side-by-side
+
+- Download CSV button
+
+- Save observations/notes for each video
