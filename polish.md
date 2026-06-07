@@ -7,3 +7,4 @@
 
 - Two more ideas
   - Add a Centroid Finder banner to the README
+  - A live video feed centroid app
