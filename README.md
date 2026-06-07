@@ -44,7 +44,14 @@ The video processor is based in Java while the server was created using Node.js/
 
 ## Testing
 
-- 
+- Testing the processor
+   - cd into processor folder
+   - run mvn test
+
+- Testing the server 
+   - cd into server folder
+   - run npm test
+     
 
 ---
 
