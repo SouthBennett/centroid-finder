@@ -29,6 +29,8 @@ The video processor is based in Java while the server was created using Node.js/
 - Jest
 - Supertest
 
+---
+
 ## Installation 
 
 1. Clone the repository
