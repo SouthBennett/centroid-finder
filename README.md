@@ -10,6 +10,44 @@ The video processor is based in Java while the server was created using Node.js/
 
 ---
 
+## Features
+
+- List Available Videos
+- Generate Thumbnails
+- Start processing jobs
+- Track Job Status
+- Generate CSV output
+
+---
+
+## Tech Stack
+
+- Java
+- Node.js
+- Express
+- FFmpeg
+- Jest
+- Supertest
+
+## Installation 
+
+1. Clone the repository
+2. Install Node dependencies (npm i)
+3. Install Java dependencies/build the processor (mvn compile)
+4. Run tests (mvn test)
+5. Create .env file
+6. Configure the JAR path
+7. Create any required folders needed. 
+8. Start the server (cd server, npm run dev)
+
+---
+
+## Testing
+
+- 
+
+---
+
 ## Authors
  - Connor Hughes
  - Xavier Lewis
