@@ -1,5 +1,7 @@
 # Centroid Finder
 
+![Demo GIF](server/Images/Salamander.gif)
+
 ---
 
 ## Project Overview
