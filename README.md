@@ -52,7 +52,6 @@ The video processor is based in Java while the server was created using Node.js/
    - cd into server folder
    - run npm test
      
-
 ---
 
 ## Authors
