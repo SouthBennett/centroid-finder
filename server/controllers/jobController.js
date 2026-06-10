@@ -64,8 +64,9 @@ export function startProcessingJob(req, res) {
     const outputCSV = getResultPath(filename);
 
     jobs[jobID] = {
-      status: "Processing looking for the mander now",
-      result: getResultPath(filename)
+      status: "processing",
+      result: getResultPath(filename),
+      error: null
     };
 
     const child = spawn(
@@ -79,12 +80,26 @@ export function startProcessingJob(req, res) {
         threshold
       ],
       {
-        detached: true,
-        stdio: "ignore"
+        detached: false,
+        stdio: "inherit"
       }
     );
 
-    child.unref();
+    child.on("error", (error) => {
+        jobs[jobID].status = "error";
+        jobs[jobID].error = error.message;
+  
+    });
+
+    child.on("close", (code) => {
+      if(code === 0) {
+        jobs[jobID].status = "done";
+      } else {
+        jobs[jobID].status = "error";
+        jobs[jobID].error = `Java process exited with code : ${code}`;
+      }
+    });
+
 
     return res.status(202).json({ jobID });
   } catch (error) {
@@ -107,19 +122,24 @@ export function getJobStatus(req, res) {
       });
     }
 
-    if (fs.existsSync(`.${job.result}`)) {
-      job.status = "all done here";
-    }
 
-    if (job.status === "all done here") {
+    if (job.status === "done") {
       return res.status(200).json({
         status: "done",
         result: job.result
       });
     }
 
+    
+    if (job.status === "error") {
+      return res.status(200).json({
+        status: "error",
+        result: job.error
+      });
+    }
+
     return res.status(200).json({
-      status: "Processing"
+      status: "processing"
     });
   } catch (error) {
     console.log(chalk.bgRedBright("you had one job..." + error));

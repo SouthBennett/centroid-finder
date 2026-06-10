@@ -2,10 +2,14 @@ import express from "express";
 import dotenv from "dotenv";
 import chalk from "chalk";
 import videoRoutes from "./routes/videoRoutes.js";
+import cors from "cors";
+
+
 
 dotenv.config({ path: "../.env" });
 
 const app = express();
+app.use(cors());
 
 const PORT = process.env.PORT;
 
